@@ -58,3 +58,30 @@ jobs:
         run: |
           chmod +x scripts/test-migrations.sh
           ./scripts/test-migrations.sh
+
+  app-build:
+    name: App typecheck + build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        # Publishable (anon) keys are safe to expose — they are designed for
+        # browsers and every table is protected by RLS. Build-time only.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://bvhafvntlhibpwtdofgj.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_x9hj7deJRdZt2bcpgd3k5A_OGNFT2FP
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build
