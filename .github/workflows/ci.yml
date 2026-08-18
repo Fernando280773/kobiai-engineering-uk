@@ -32,7 +32,7 @@ jobs:
   migration-test:
     name: Database migration test (real)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8
     services:
       postgres:
         image: postgres:16
@@ -48,11 +48,13 @@ jobs:
           --health-retries 10
     steps:
       - uses: actions/checkout@v4
-      - name: Install psql client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      # psql is pre-installed on ubuntu-latest runners — no apt-get needed.
+      - name: Verify psql is available
+        run: psql --version
       - name: Run migration test
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kobiai_test
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/kobiai_test
+          PGCONNECT_TIMEOUT: 10
         run: |
           chmod +x scripts/test-migrations.sh
           ./scripts/test-migrations.sh

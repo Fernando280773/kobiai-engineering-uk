@@ -1,6 +1,6 @@
 # KobiAI Engineering UK
 
-**A software factory.** We do not build software here — we build the *line that builds software*, and we prove it by pushing one small real product through it, then hardening whatever station hurt.
+**A software factory.** We do not build software here — we build the _line that builds software_, and we prove it by pushing one small real product through it, then hardening whatever station hurt.
 
 - **How the factory runs:** [`FACTORY-OPERATING-MODEL.md`](FACTORY-OPERATING-MODEL.md) — one page, 7 stations, the human gates, the AI roles, and the real quality checks.
 - **The plan from here:** [`PLAN.md`](PLAN.md) — start-to-end, step by step, to the first shipped product slice.

@@ -1,6 +1,6 @@
 # KobiAI Engineering UK — Start-to-End Plan
 
-**Goal:** Build the software *factory* by pushing one small real product slice through it, end to end, and hardening the line as we go.
+**Goal:** Build the software _factory_ by pushing one small real product slice through it, end to end, and hardening the line as we go.
 **First product slice (the "Model T" of this factory):** Sign up → create a workspace → add a customer → see the customer in a list. Real auth, real database, real screen.
 **Why this slice:** it exercises the whole line (auth, DB, API, UI, tests, deploy) while staying tiny, and the database for it is already built and deployed.
 
@@ -8,13 +8,13 @@
 
 ## Phase 0 — Foundation (this week) ✅ mostly done today
 
-| Step | What | Status |
-|:--|:--|:--|
-| 0.1 | New Supabase project `kobiai-engineering-uk` (London) | ✅ created today |
-| 0.2 | Clean, corrected schema applied (auth.users fixed) | ✅ applied today |
-| 0.3 | New repo `kobiai-engineering-uk` with REAL quality gates | ✅ built today (this package) |
-| 0.4 | Push repo to GitHub | ⬜ you (steps in README) |
-| 0.5 | Confirm CI runs green on GitHub | ⬜ you push → watch Actions tab |
+| Step | What                                                     | Status                          |
+| :--- | :------------------------------------------------------- | :------------------------------ |
+| 0.1  | New Supabase project `kobiai-engineering-uk` (London)    | ✅ created today                |
+| 0.2  | Clean, corrected schema applied (auth.users fixed)       | ✅ applied today                |
+| 0.3  | New repo `kobiai-engineering-uk` with REAL quality gates | ✅ built today (this package)   |
+| 0.4  | Push repo to GitHub                                      | ⬜ you (steps in README)        |
+| 0.5  | Confirm CI runs green on GitHub                          | ⬜ you push → watch Actions tab |
 
 At the end of Phase 0 you have a factory floor: a clean database, a repo, and a machine that checks work automatically.
 
@@ -39,6 +39,7 @@ Follow the 7 stations in FACTORY-OPERATING-MODEL.md. One slice:
 ## Phase 2 — Prove repeatability (Week 3–4)
 
 Run the line twice more with equally small slices, e.g.:
+
 - Slice 2: edit / delete a customer.
 - Slice 3: add a "contact" under a customer (uses the `contacts` table).
 
@@ -56,7 +57,7 @@ Ship a CRM a real small business could actually use for their contacts and deals
 
 ## Phase 4 — Scale the factory, not the scope (Month 3+)
 
-Only now do you invest again in the "engineering system" — but this time you're documenting a factory that has actually produced things. Add reusable build-kit templates, more automated checks, and a second Builder AI running slices in parallel. The maturity model measures *shipped*, not *specified*.
+Only now do you invest again in the "engineering system" — but this time you're documenting a factory that has actually produced things. Add reusable build-kit templates, more automated checks, and a second Builder AI running slices in parallel. The maturity model measures _shipped_, not _specified_.
 
 ---
 

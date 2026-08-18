@@ -4,19 +4,19 @@
 **Supabase project:** `kobiai-engineering-uk`
 **Project ref:** `bvhafvntlhibpwtdofgj`
 **Region:** London / `eu-west-2`
-**URL:** https://bvhafvntlhibpwtdofgj.supabase.co
+**URL:** <https://bvhafvntlhibpwtdofgj.supabase.co>
 **Cost:** $10/month (approved by owner)
 
 ## Status: LIVE ✅ (verified)
 
-| Item | Value |
-|:--|:--|
-| Public tables | 26 |
-| RLS policies | 73 |
-| Tables without RLS | 0 |
-| Security advisor warnings | 0 |
-| Immutable audit tables | agent_execution_logs, workflow_executions, workflow_events, workforce_performance |
-| Trigger functions | hardened (`search_path = ''`) |
+| Item                      | Value                                                                             |
+| :------------------------ | :-------------------------------------------------------------------------------- |
+| Public tables             | 26                                                                                |
+| RLS policies              | 73                                                                                |
+| Tables without RLS        | 0                                                                                 |
+| Security advisor warnings | 0                                                                                 |
+| Immutable audit tables    | agent_execution_logs, workflow_executions, workflow_events, workforce_performance |
+| Trigger functions         | hardened (`search_path = ''`)                                                     |
 
 ## How it was built
 

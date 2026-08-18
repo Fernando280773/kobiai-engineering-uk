@@ -1,6 +1,6 @@
 # KobiAI Software Factory — Operating Model (v1)
 
-**One page you can run this week.** This is not the product. This is the *line that builds products*. You prove the factory by pushing one small real product through it — then you harden whatever station hurt.
+**One page you can run this week.** This is not the product. This is the _line that builds products_. You prove the factory by pushing one small real product through it — then you harden whatever station hurt.
 
 ---
 
@@ -17,15 +17,15 @@ No new governance documents, ADRs, or maturity levels are created until a produc
 
 Every unit of work (one small feature) flows left to right. It cannot skip a station. A station either **passes it on** or **sends it back**.
 
-| # | Station | Who runs it | Input → Output | Pass rule (Definition of Done) |
-|:--|:--------|:------------|:---------------|:-------------------------------|
-| 1 | **Order** | 👤 You | Idea → one-line job ticket | One sentence a customer would recognise. "As a user I can add a customer and see it in a list." |
-| 2 | **Spec** | 🤖 Architect AI | Ticket → tiny spec (½ page max) | Names the tables touched, the API route, the screen, and the ONE test that proves it works. |
-| 3 | **Human Gate A** | 👤 You | Spec → approved spec | You read ½ page and say "build it" or "change X." 2 minutes. |
-| 4 | **Build** | 🤖 Builder AI | Spec → code + its test | Code compiles, the one test is written, runs locally, and passes. |
-| 5 | **Quality Gate** | ⚙️ Machine (CI) | Code → green or red | Automated: lint + format + typecheck + the migration/test all pass. **No human can override red.** |
-| 6 | **Human Gate B** | 👤 You | Green build → you click it | You open the screen and use it yourself. Works → approve. Doesn't → back to Station 4. |
-| 7 | **Ship + Learn** | 👤 You + 🤖 | Approved → merged & deployed | Merged to main, live on the UK Supabase DB. Then: *what part of the line was clumsy?* Fix that one thing. |
+| #   | Station          | Who runs it     | Input → Output                  | Pass rule (Definition of Done)                                                                            |
+| :-- | :--------------- | :-------------- | :------------------------------ | :-------------------------------------------------------------------------------------------------------- |
+| 1   | **Order**        | 👤 You          | Idea → one-line job ticket      | One sentence a customer would recognise. "As a user I can add a customer and see it in a list."           |
+| 2   | **Spec**         | 🤖 Architect AI | Ticket → tiny spec (½ page max) | Names the tables touched, the API route, the screen, and the ONE test that proves it works.               |
+| 3   | **Human Gate A** | 👤 You          | Spec → approved spec            | You read ½ page and say "build it" or "change X." 2 minutes.                                              |
+| 4   | **Build**        | 🤖 Builder AI   | Spec → code + its test          | Code compiles, the one test is written, runs locally, and passes.                                         |
+| 5   | **Quality Gate** | ⚙️ Machine (CI) | Code → green or red             | Automated: lint + format + typecheck + the migration/test all pass. **No human can override red.**        |
+| 6   | **Human Gate B** | 👤 You          | Green build → you click it      | You open the screen and use it yourself. Works → approve. Doesn't → back to Station 4.                    |
+| 7   | **Ship + Learn** | 👤 You + 🤖     | Approved → merged & deployed    | Merged to main, live on the UK Supabase DB. Then: _what part of the line was clumsy?_ Fix that one thing. |
 
 ---
 
@@ -35,7 +35,7 @@ Every unit of work (one small feature) flows left to right. It cannot skip a sta
 - 🤖 **Architect AI** (e.g. ChatGPT / Claude). Owns Station 2. Turns a ticket into a tiny spec. Does **not** grade its own work.
 - 🤖 **Builder AI** (e.g. Anti-Gravity / a coding agent). Owns Station 4. Writes code + the test. Does **not** approve its own work.
 
-The rule that fixes the old system: **no AI grades its own homework.** The Architect specs, the Builder builds, and an *independent machine* (CI) and *you* decide if it passed. That is the difference between a factory and a workshop.
+The rule that fixes the old system: **no AI grades its own homework.** The Architect specs, the Builder builds, and an _independent machine_ (CI) and _you_ decide if it passed. That is the difference between a factory and a workshop.
 
 ---
 
@@ -49,11 +49,12 @@ The rule that fixes the old system: **no AI grades its own homework.** The Archi
 ## What "improving the factory" means
 
 After each product slice ships (Station 7), ask one question: **where did the line jam?**
+
 - Spec was vague? → improve the spec template.
 - Builder made the same mistake twice? → add a rule to the builder's instructions.
 - A bug reached you? → add a test so that class of bug can never pass Station 5 again.
 
-Each fix is a permanent factory upgrade. This is how the reusable engineering system is *earned* — extracted from real production, Toyota-style — instead of written in advance.
+Each fix is a permanent factory upgrade. This is how the reusable engineering system is _earned_ — extracted from real production, Toyota-style — instead of written in advance.
 
 ---
 
