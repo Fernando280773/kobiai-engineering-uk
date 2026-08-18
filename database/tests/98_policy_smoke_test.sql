@@ -65,6 +65,14 @@ begin
     json_build_object('sub',u1,'role','authenticated')::text, true);
   set local role authenticated;
   ws := public.create_workspace('Smoke Co','smoke-co');
+
+  -- Idempotency (migration 0036). Two concurrent renders of /customers both
+  -- called this and the loser got a unique violation. Calling it twice must
+  -- return the same workspace, not raise.
+  if public.create_workspace('Smoke Co','smoke-co') is distinct from ws then
+    raise exception 'POLICY SMOKE TEST FAILED — create_workspace is not idempotent';
+  end if;
+
   insert into public.customers (workspace_id, customer_code, name)
   values (ws, 'SMOKE-1', 'Acme Ltd');
   select count(*) into n_owner from public.customers where name = 'Acme Ltd';
