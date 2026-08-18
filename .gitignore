@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Env / secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Logs / OS
+*.log
+.DS_Store
+
+# Editors
+.idea/
+.vscode/

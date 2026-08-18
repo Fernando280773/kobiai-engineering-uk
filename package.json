@@ -1,0 +1,16 @@
+{
+  "name": "kobiai-engineering-uk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KobiAI software factory (UK) — build the factory by building products through it.",
+  "scripts": {
+    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules",
+    "format:check": "prettier --check \"**/*.{md,json,yml,yaml}\"",
+    "format:write": "prettier --write \"**/*.{md,json,yml,yaml}\"",
+    "test:migrations": "bash scripts/test-migrations.sh"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.41.0",
+    "prettier": "^3.3.3"
+  }
+}

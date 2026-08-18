@@ -1,0 +1,58 @@
+name: CI — Real Quality Gates
+
+# This CI actually checks things. A green tick here means the work really passed —
+# it is NOT a placeholder. Red blocks the merge; no human or AI can override it.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  docs-and-format:
+    name: Docs + formatting
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dev tooling
+        run: npm install --no-save markdownlint-cli@0.41.0 prettier@3.3.3
+      - name: Lint markdown
+        run: npx markdownlint "**/*.md" --ignore node_modules
+      - name: Check formatting
+        run: npx prettier --check "**/*.{md,json,yml,yaml}"
+
+  migration-test:
+    name: Database migration test (real)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: kobiai_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install psql client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Run migration test
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/kobiai_test
+        run: |
+          chmod +x scripts/test-migrations.sh
+          ./scripts/test-migrations.sh
