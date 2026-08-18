@@ -6,10 +6,7 @@ import { addCustomer, type AddCustomerState } from "./actions";
 const initialState: AddCustomerState = { error: null };
 
 export function AddCustomerForm() {
-  const [state, formAction, pending] = useActionState(
-    addCustomer,
-    initialState,
-  );
+  const [state, formAction, pending] = useActionState(addCustomer, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
   // Clear the form only after a successful submit.
@@ -23,12 +20,7 @@ export function AddCustomerForm() {
       <input id="name" name="name" required placeholder="Acme Ltd" />
 
       <label htmlFor="customer_code">Customer code</label>
-      <input
-        id="customer_code"
-        name="customer_code"
-        required
-        placeholder="CUST-001"
-      />
+      <input id="customer_code" name="customer_code" required placeholder="CUST-001" />
 
       <label htmlFor="email">Email</label>
       <input id="email" name="email" type="email" placeholder="optional" />
@@ -40,7 +32,11 @@ export function AddCustomerForm() {
         {pending ? "Adding…" : "Add customer"}
       </button>
 
-      {state.error && <p className="error">{state.error}</p>}
+      {state.error && (
+        <p className="error" role="alert" data-testid="form-error">
+          {state.error}
+        </p>
+      )}
     </form>
   );
 }

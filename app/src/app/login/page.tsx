@@ -17,20 +17,25 @@ export default function LoginPage() {
     setBusy(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      router.push("/customers");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sign-in failed.");
+    } finally {
       setBusy(false);
-      return;
     }
-
-    router.push("/customers");
-    router.refresh();
   }
 
   return (
@@ -64,7 +69,11 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <p className="error" role="alert" data-testid="form-error">
+          {error}
+        </p>
+      )}
 
       <p className="sub" style={{ marginTop: 20 }}>
         No account? <Link href="/signup">Create one</Link>
