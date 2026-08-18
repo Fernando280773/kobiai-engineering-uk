@@ -14,17 +14,20 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PSQL="psql --no-psqlrc -v ON_ERROR_STOP=1 -q $DATABASE_URL"
 
-echo "== 1/3  bootstrap (fake Supabase auth schema) =="
+echo "== 1/4  bootstrap (fake Supabase auth schema) =="
 $PSQL -f "$ROOT/database/tests/00_test_bootstrap.sql"
 
-echo "== 2/3  applying migrations in order =="
+echo "== 2/4  applying migrations in order =="
 for f in "$ROOT"/database/migrations/*.sql; do
   echo "   -> $(basename "$f")"
   $PSQL -f "$f"
 done
 
-echo "== 3/3  asserting schema =="
+echo "== 3/4  policy smoke test (acts as a real signed-in user) =="
+$PSQL -f "$ROOT/database/tests/98_policy_smoke_test.sql"
+
+echo "== 4/4  asserting schema =="
 $PSQL -f "$ROOT/database/tests/99_assert_schema.sql"
 
 echo ""
-echo "✅ MIGRATION TEST PASSED — schema builds and all assertions hold."
+echo "✅ MIGRATION TEST PASSED — schema builds, policies work, tenants isolated."

@@ -24,6 +24,30 @@ The 32 migrations in `database/migrations/` were applied in order (grouped into 
 All user foreign keys point to Supabase's `auth.users` (not a non-existent `public.users`) —
 the correction from the original repo is baked in here from the start.
 
+## 18 Aug 2026 — RLS recursion fix (migrations 0033–0035)
+
+While speccing the first product slice, a real authenticated user was run against the
+schema. **All 26 tables were unreadable**: the `workspace_members` policy filtered the
+table by selecting the same table, so Postgres recursed forever — and because every other
+table's policy subqueries `workspace_members`, the failure spread everywhere.
+
+Nothing above caught it. Every gate checked that policies **exist**; none checked that a
+policy **works**.
+
+| Migration | What it does                                                                      |
+| :-------- | :-------------------------------------------------------------------------------- |
+| 0033      | `SECURITY DEFINER` helper breaks the recursion; rewrites the members policy       |
+| 0034      | `create_workspace()` RPC — a new user can create their first workspace atomically |
+| 0035      | Moves the helper into a non-exposed `private` schema; locks `anon` out            |
+
+**Verified after the fix:** 26/26 tables readable; create workspace → add customer → list
+works end to end; a second tenant sees 0 rows. Security advisor: 4 warnings → 1, and that
+one is intentional (`create_workspace` is deliberately an authenticated API endpoint).
+
+**Gate added:** `database/tests/98_policy_smoke_test.sql` now runs in CI as a real signed-in
+user. Proven honest both ways — it fails on the recursion bug, and it fails on a
+deliberately leaky policy.
+
 ## Keys
 
 - Publishable key: `sb_publishable_x9hj7deJRdZt2bcpgd3k5A_OGNFT2FP`

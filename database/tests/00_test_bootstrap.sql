@@ -33,9 +33,18 @@ create table if not exists auth.users (
   email text
 );
 
--- Supabase's auth.uid() reads the JWT; in tests we just return a fixed UUID.
+-- Supabase's auth.uid() reads the `sub` claim out of the request JWT. We mirror
+-- that here rather than returning a fixed UUID, so tests can act as different
+-- users via set_config('request.jwt.claims', ...) — which is what makes the
+-- policy smoke test (98_policy_smoke_test.sql) able to prove tenant isolation.
+-- Returns NULL when no claims are set, exactly like an anonymous request.
 create or replace function auth.uid()
 returns uuid
 language sql
 stable
-as $$ select '00000000-0000-0000-0000-000000000000'::uuid $$;
+as $$
+  select nullif(
+    current_setting('request.jwt.claims', true)::json ->> 'sub',
+    ''
+  )::uuid
+$$;
