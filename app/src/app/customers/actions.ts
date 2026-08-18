@@ -62,7 +62,21 @@ export async function ensureWorkspace(): Promise<Result<string>> {
     p_slug: slug,
   });
 
-  if (rpcError) return { data: null, error: explain(rpcError) };
+  if (rpcError) {
+    // Belt and braces alongside migration 0036: if a concurrent request won the
+    // race, the workspace now exists — read it back instead of surfacing a
+    // unique violation to the user.
+    if (rpcError.code === "23505") {
+      const { data: retry } = await supabase
+        .from("workspace_members")
+        .select("workspace_id")
+        .limit(1);
+      if (retry && retry.length > 0) {
+        return { data: retry[0].workspace_id as string, error: null };
+      }
+    }
+    return { data: null, error: explain(rpcError) };
+  }
   return { data: created as string, error: null };
 }
 

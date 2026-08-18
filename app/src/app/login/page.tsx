@@ -29,8 +29,11 @@ export default function LoginPage() {
         return;
       }
 
+      // push() alone. Calling refresh() straight after triggered a SECOND
+      // concurrent render of /customers, and both runs raced to create the
+      // workspace — one won, the other got a unique violation. /customers is
+      // force-dynamic, so push() already fetches it fresh with the new cookies.
       router.push("/customers");
-      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign-in failed.");
     } finally {
