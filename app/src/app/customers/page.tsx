@@ -1,6 +1,7 @@
 import { createServerSupabase } from "@/lib/supabase-server";
 import { ensureWorkspace, signOut } from "./actions";
 import { AddCustomerForm } from "./add-customer-form";
+import { CustomerRow, type Customer } from "./customer-row";
 
 export const dynamic = "force-dynamic";
 
@@ -62,16 +63,12 @@ export default async function CustomersPage() {
                     <th>Code</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {customers.map((c) => (
-                    <tr key={c.id}>
-                      <td data-testid="customer-name">{c.name}</td>
-                      <td>{c.customer_code}</td>
-                      <td>{c.email ?? "—"}</td>
-                      <td>{c.phone ?? "—"}</td>
-                    </tr>
+                    <CustomerRow key={c.id} customer={c as Customer} />
                   ))}
                 </tbody>
               </table>

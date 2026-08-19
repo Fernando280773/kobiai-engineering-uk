@@ -119,6 +119,56 @@ export async function addCustomer(
   return { error: null };
 }
 
+export type MutationResult = { error: string | null };
+
+/**
+ * Edit a customer. No workspace_id filter by design — the rls_customers_update
+ * policy scopes this to the caller's workspaces inside Postgres. Verified: a
+ * second tenant issuing this same update changes 0 rows.
+ */
+export async function updateCustomer(
+  id: string,
+  fields: { name: string; customer_code: string; email: string; phone: string },
+): Promise<MutationResult> {
+  const name = fields.name.trim();
+  const customerCode = fields.customer_code.trim();
+
+  if (!name) return { error: "Name is required." };
+  if (!customerCode) return { error: "Customer code is required." };
+
+  const supabase = await createServerSupabase();
+  const { error } = await supabase
+    .from("customers")
+    .update({
+      name,
+      customer_code: customerCode,
+      email: fields.email.trim() || null,
+      phone: fields.phone.trim() || null,
+    })
+    .eq("id", id);
+
+  if (error) {
+    if (error.code === "23505") {
+      return { error: `Customer code "${customerCode}" is already used.` };
+    }
+    return { error: explain(error) };
+  }
+
+  revalidatePath("/customers");
+  return { error: null };
+}
+
+/** Delete a customer. Same story: RLS decides whose rows can go. */
+export async function deleteCustomer(id: string): Promise<MutationResult> {
+  const supabase = await createServerSupabase();
+  const { error } = await supabase.from("customers").delete().eq("id", id);
+
+  if (error) return { error: explain(error) };
+
+  revalidatePath("/customers");
+  return { error: null };
+}
+
 export async function signOut() {
   const supabase = await createServerSupabase();
   await supabase.auth.signOut();

@@ -26,3 +26,9 @@ td { padding: 10px; border-bottom: 1px solid #f4f4f5; }
 .empty { color: #71717a; font-size: 14px; padding: 20px 0; text-align: center; }
 a { color: #18181b; }
 .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+td.actions { white-space: nowrap; text-align: right; }
+td.actions button { margin: 0 0 0 6px; padding: 5px 10px; font-size: 13px; }
+td.actions .confirm { display: inline-flex; align-items: center; gap: 6px; }
+td.actions .sub { margin: 0; font-size: 13px; }
+td input { padding: 6px 8px; font-size: 13px; }

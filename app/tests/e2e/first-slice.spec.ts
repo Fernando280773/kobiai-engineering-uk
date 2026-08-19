@@ -56,8 +56,8 @@ test("first slice: sign up, add a customer, and stay isolated", async ({ browser
   // A brand-new user lands on an empty list, not an error.
   await expect(alicePage.getByText(/no customers yet/i)).toBeVisible();
 
-  await alicePage.getByLabel("Name").fill(CUSTOMER);
-  await alicePage.getByLabel("Customer code").fill(`CUST-${stamp}`);
+  await alicePage.getByLabel("Name", { exact: true }).fill(CUSTOMER);
+  await alicePage.getByLabel("Customer code", { exact: true }).fill(`CUST-${stamp}`);
   await alicePage.getByRole("button", { name: /add customer/i }).click();
 
   // Surface a rejected insert instead of waiting out the row assertion.
