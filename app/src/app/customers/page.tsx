@@ -3,6 +3,7 @@ import { ensureWorkspace, signOut } from "./actions";
 import { AddCustomerForm } from "./add-customer-form";
 import { CustomerRow, type Customer } from "./customer-row";
 
+
 export const dynamic = "force-dynamic";
 
 export default async function CustomersPage() {
