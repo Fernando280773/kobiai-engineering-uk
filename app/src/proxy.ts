@@ -8,7 +8,7 @@ type CookieToSet = { name: string; value: string; options: CookieOptions };
  * Note this is a convenience redirect, not the security boundary — RLS in the
  * database is what actually prevents one tenant reading another's rows.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
