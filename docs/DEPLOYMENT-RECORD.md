@@ -53,3 +53,16 @@ deliberately leaky policy.
 - Publishable key: `sb_publishable_x9hj7deJRdZt2bcpgd3k5A_OGNFT2FP`
 - Secret (service_role) key: get from Dashboard → Project Settings → API Keys (never commit it)
 - See `../.env.example`.
+
+## 25 Aug 2026 — Next.js 16 upgrade (app)
+
+The app (`app/`) was upgraded from Next.js 15.5 to 16, on a branch, through CI, then merged to `main` (PR #1).
+
+| Item              | Before              | After                           |
+| ----------------- | ------------------- | ------------------------------- |
+| next              | ^15.5.23            | 16.3.2                          |
+| react / react-dom | 19.1.0              | 19.2.8                          |
+| Middleware        | `src/middleware.ts` | `src/proxy.ts` (Next 16 rename) |
+| Builder           | Webpack             | Turbopack (Next 16 default)     |
+
+Run with the official `@next/codemod upgrade`. It renamed the Supabase session-refresh middleware to `proxy.ts` and added Cache Components `instant = false` opt-outs; those were removed (Cache Components not adopted) — the only build error and its fix. Verified before merge: typecheck clean, Turbopack production build succeeds (all 5 routes, `proxy.ts` recognised as middleware), e2e 2/2 passing. CI on PR #1 and on `main` after merge: all three gates green. Git: upgrade `e3580a7` → merge `3f573e0`.
