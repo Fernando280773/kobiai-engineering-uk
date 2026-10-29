@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase-server";
 import { ensureWorkspace, signOut } from "./actions";
 import { AddCustomerForm } from "./add-customer-form";
@@ -33,9 +34,12 @@ export default async function CustomersPage() {
           <h1>Customers</h1>
           <p className="sub">Everything in your workspace.</p>
         </div>
-        <form action={signOut}>
-          <button type="submit">Sign out</button>
-        </form>
+        <div className="row">
+          <Link href="/billing">Billing</Link>
+          <form action={signOut}>
+            <button type="submit">Sign out</button>
+          </form>
+        </div>
       </div>
 
       {error && (

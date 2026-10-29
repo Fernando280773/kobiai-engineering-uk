@@ -37,7 +37,7 @@ declare
   t text;
   missing text := '';
 begin
-  foreach t in array array['workspaces','workspace_members','customers','contacts','ai_agents','workflows']
+  foreach t in array array['workspaces','workspace_members','customers','contacts','ai_agents','workflows','workspace_billing','stripe_webhook_events']
   loop
     if not exists (select 1 from information_schema.tables
                    where table_schema='public' and table_name=t) then
